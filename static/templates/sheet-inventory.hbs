@@ -1,0 +1,20 @@
+<section class="inventory-suitcase">
+    <div class="suitcase-grid" id="suitcase-drop-zone">
+        
+        {{#each items as |item id|}}
+        <div class="item-card-wrapper" 
+             data-item-id="{{item.id}}" 
+             draggable="true"
+             style="grid-column: span {{item.system.largura}}; grid-row: span {{item.system.altura}};">
+            
+            <img src="{{item.img}}" title="{{item.name}}" class="item-icon"/>
+            
+            <div class="item-meta">
+                <span class="item-slots">{{item.system.espacos}} slots</span>
+            </div>
+        </div>
+        {{/each}}
+        
+        <div class="grid-overlay"></div>
+    </div>
+</section>

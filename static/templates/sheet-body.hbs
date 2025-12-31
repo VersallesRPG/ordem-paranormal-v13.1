@@ -1,0 +1,82 @@
+<section class="sheet-body">
+    <div class="status-container">
+        {{!-- Pontos de Vida --}}
+        <div class="status-group hp">
+            <label class="status-label">PONTOS DE VIDA</label>
+            <div class="status-bar-wrapper">
+                <input type="number" name="system.status.pv.value" value="{{system.status.pv.value}}" placeholder="0" />
+                <span class="status-divider">/</span>
+                <span class="status-max">{{system.status.pv.max}}</span>
+            </div>
+        </div>
+
+        {{!-- Pontos de Esforço --}}
+        <div class="status-group pe">
+            <label class="status-label">PONTOS DE ESFORÇO</label>
+            <div class="status-bar-wrapper">
+                <input type="number" name="system.status.pe.value" value="{{system.status.pe.value}}" placeholder="0" />
+                <span class="status-divider">/</span>
+                <span class="status-max">{{system.status.pe.max}}</span>
+            </div>
+        </div>
+
+        {{!-- Sanidade --}}
+        <div class="status-group san">
+            <label class="status-label">SANIDADE</label>
+            <div class="status-bar-wrapper">
+                <input type="number" name="system.status.sanidade.value" value="{{system.status.sanidade.value}}" placeholder="0" />
+                <span class="status-divider">/</span>
+                <span class="status-max">{{system.status.sanidade.max}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="attribute-pentagram">
+        <div class="pentagram-background"></div>
+
+        {{!-- Força --}}
+        <div class="attribute-node forca" data-action="rollAttribute" data-attribute="forca" title="Rolar Força">
+            <span class="attr-name">FOR</span>
+            <input type="number" name="system.atributos.forca" value="{{system.atributos.forca}}" />
+        </div>
+
+        {{!-- Agilidade --}}
+        <div class="attribute-node agilidade" data-action="rollAttribute" data-attribute="agilidade" title="Rolar Agilidade">
+            <span class="attr-name">AGI</span>
+            <input type="number" name="system.atributos.agilidade" value="{{system.atributos.agilidade}}" />
+        </div>
+
+        {{!-- Intelecto --}}
+        <div class="attribute-node intelecto" data-action="rollAttribute" data-attribute="intelecto" title="Rolar Intelecto">
+            <span class="attr-name">INT</span>
+            <input type="number" name="system.atributos.intelecto" value="{{system.atributos.intelecto}}" />
+        </div>
+
+        {{!-- Vigor --}}
+        <div class="attribute-node vigor" data-action="rollAttribute" data-attribute="vigor" title="Rolar Vigor">
+            <span class="attr-name">VIG</span>
+            <input type="number" name="system.atributos.vigor" value="{{system.atributos.vigor}}" />
+        </div>
+
+        {{!-- Presença --}}
+        <div class="attribute-node presenca" data-action="rollAttribute" data-attribute="presenca" title="Rolar Presença">
+            <span class="attr-name">PRE</span>
+            <input type="number" name="system.atributos.presenca" value="{{system.atributos.presenca}}" />
+        </div>
+    </div>
+
+    <div class="derived-stats-footer">
+        <div class="stat-box">
+            <label>DEFESA</label>
+            <span class="stat-value">{{system.defesa}}</span>
+        </div>
+        <div class="stat-box">
+            <label>LIMITE DE PE</label>
+            <span class="stat-value">{{system.limitePE}}</span>
+        </div>
+        <div class="stat-box">
+            <label>DT RITUAIS</label>
+            <span class="stat-value">{{system.dtRituais}}</span>
+        </div>
+    </div>
+</section>

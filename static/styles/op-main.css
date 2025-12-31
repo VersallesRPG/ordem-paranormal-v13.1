@@ -1,0 +1,304 @@
+/* 1. Definição de Camadas (Padrão V13) */
+/* Isso garante que o estilo do seu sistema tenha prioridade sobre o núcleo (core) */
+@layer foundry, system, module;
+
+@layer system {
+    /* --- CONFIGURAÇÕES GERAIS E VARIÁVEIS --- */
+    
+    /* Variáveis de Cor - Estética Ordem e Horror */
+    :root {
+        --op-red: #ff0000;
+        --op-dark-red: #8b0000;
+        --op-black: #0a0a0a;
+        --op-gray: #1a1a1a;
+        --op-text: #e0e0e0;
+        --op-font-main: 'Special Elite', cursive; /* Recomendo importar via Google Fonts no main.ts */
+    }
+
+    /* --- ANIMAÇÕES (KEYFRAMES) --- */
+    
+    /* Animação de Tremedeira (Vigília do Medo) */
+    @keyframes terror-shake {
+        0% { transform: translate(1px, 1px) rotate(0deg); }
+        20% { transform: translate(-2px, 0px) rotate(-1deg); }
+        40% { transform: translate(2px, 1px) rotate(1deg); }
+        60% { transform: translate(-1px, -1px) rotate(0deg); }
+        80% { transform: translate(2px, 2px) rotate(1deg); }
+        100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+
+    /* Animação de Batimento Cardíaco (Sombra do Horror) */
+    @keyframes horror-pulse {
+        0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); }
+        50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); }
+        100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); }
+    }
+
+    /* --- ESTRUTURA PRINCIPAL DA FICHA --- */
+    
+    /* Configurações Gerais da Ficha ApplicationV2 */
+    .ordem-paranormal.sheet {
+        background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+                    url('../assets/ui/line-art-background.webp') no-repeat center;
+        background-size: cover;
+        color: var(--op-text);
+        font-family: var(--op-font-main);
+        border: 2px solid var(--op-red);
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        position: relative; /* Necessário para o ::after do filtro de vinheta */
+        overflow: hidden;   /* Garante que a vinheta não vase */
+    }
+
+    /* --- ESTADOS DE SANIDADE (Lógica Visual) --- */
+
+    /* ESTADO: ABALADO (Sanidade < 50%) */
+    .ordem-paranormal.sheet.state-shaken {
+        filter: sepia(0.4) contrast(1.1);
+        transition: filter 1s ease-in-out;
+    }
+
+    /* ESTADO: ENLOUQUECENDO (Sanidade < 25%) */
+    .ordem-paranormal.sheet.state-insane {
+        filter: grayscale(0.8) contrast(1.5) brightness(0.8);
+        animation: terror-shake 0.3s infinite, horror-pulse 1.5s infinite;
+    }
+
+    /* Filtro de Vinheta Paranormal para sanidade baixa */
+    .ordem-paranormal.sheet.state-insane::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        pointer-events: none;
+        background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9) 100%);
+        z-index: 10;
+    }
+
+    /* --- CABEÇALHO "COLOSSAL" --- */
+    .sheet-header {
+        display: flex;
+        gap: 30px;
+        padding-bottom: 20px;
+        border-bottom: 3px double var(--op-red);
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 11;
+    }
+
+    /* Container do Busto Estilo Kemi */
+    .portrait-container {
+        position: relative;
+        width: 280px;
+        height: 350px;
+        overflow: visible;
+    }
+
+    .portrait-primary {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+        filter: grayscale(0.3) contrast(1.2);
+        transition: filter 0.5s ease;
+    }
+
+    .portrait-primary:hover {
+        filter: grayscale(0) contrast(1.3) drop-shadow(0 0 10px var(--op-red));
+    }
+
+    /* Badge do NEX */
+    .nex-badge {
+        position: absolute;
+        bottom: 20px;
+        right: -10px;
+        background: var(--op-black);
+        border: 2px solid var(--op-red);
+        padding: 5px 15px;
+        transform: skewX(-15deg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 2;
+    }
+
+    .nex-value { font-size: 1.5rem; font-weight: bold; color: var(--op-red); }
+    .nex-label { font-size: 0.7rem; text-transform: uppercase; }
+
+    /* --- STATUS BARS --- */
+    .status-bars {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        flex-grow: 1;
+        justify-content: center;
+    }
+
+    .bar-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .bar-container {
+        display: flex;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid var(--op-gray);
+        height: 40px;
+        padding: 0 10px;
+        position: relative;
+    }
+
+    /* Estilização Individual das Barras */
+    .hp .bar-container { border-left: 5px solid #2ecc71; }
+    .san .bar-container { border-left: 5px solid #3498db; }
+    .pe .bar-container { border-left: 5px solid #f1c40f; }
+
+    .bar-container input {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        text-align: right;
+        width: 60px;
+    }
+
+    /* --- PENTAGRAMA DE ATRIBUTOS --- */
+    .attribute-circle {
+        position: relative;
+        width: 100%;
+        height: 450px;
+        margin-top: 40px;
+        background: url('../assets/ui/attribute-ring.svg') no-repeat center;
+        background-size: contain;
+    }
+
+    .attribute-node {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(10, 10, 10, 0.9);
+        border: 2px solid var(--op-red);
+        clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .attribute-node:hover {
+        transform: scale(1.1);
+        border-color: white;
+        z-index: 5;
+    }
+
+    /* Posicionamento dos nós em círculo */
+    .attribute-node.forca { top: 0%; left: 50%; transform: translateX(-50%); }
+    .attribute-node.agilidade { top: 25%; right: 5%; }
+    .attribute-node.intelecto { bottom: 5%; right: 20%; }
+    .attribute-node.vigor { bottom: 5%; left: 20%; }
+    .attribute-node.presenca { top: 25%; left: 5%; }
+
+    .attr-label { font-size: 0.6rem; text-transform: uppercase; color: var(--op-red); margin-bottom: 2px; }
+    
+    .attribute-node input {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        text-align: center;
+        width: 100%;
+        font-family: var(--op-font-main);
+    }
+
+    /* --- INPUTS GLOBAIS --- */
+    input[type="text"], input[type="number"] {
+        background: rgba(0, 0, 0, 0.3);
+        color: white;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+        font-family: inherit;
+    }
+
+    input:focus {
+        border-color: var(--op-red);
+        outline: none;
+        box-shadow: 0 0 5px var(--op-red);
+    }
+
+    /* --- INVENTÁRIO (MALETA / GRID) --- */
+    
+    .suitcase-grid {
+        display: grid;
+        grid-template-columns: repeat(10, 50px); /* Grid de 10 colunas estilo RE4 */
+        grid-auto-rows: 50px;
+        gap: 2px;
+        background: rgba(20, 20, 20, 0.9);
+        border: 4px solid var(--op-gray);
+        min-height: 400px;
+        padding: 10px;
+        position: relative;
+        overflow: auto;
+    }
+
+    /* Estilo dos Cards de Item */
+    .item-card-wrapper {
+        background: rgba(40, 40, 40, 0.8);
+        border: 1px solid var(--op-red);
+        cursor: grab;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+    }
+
+    .item-card-wrapper:active { cursor: grabbing; transform: scale(1.05); }
+
+    .item-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .item-info {
+        font-size: 0.6rem;
+        text-align: center;
+        background: rgba(0,0,0,0.8);
+        width: 100%;
+    }
+
+    /* Linhas do Grid para ajudar na organização visual */
+    .grid-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: linear-gradient(var(--op-gray) 1px, transparent 1px),
+                          linear-gradient(90deg, var(--op-gray) 1px, transparent 1px);
+        background-size: 50px 50px;
+        pointer-events: none;
+        opacity: 0.3;
+    }
+
+    /* --- ESTILIZAÇÃO DO CHAT (MENSAGENS) --- */
+    
+    /* Estilização da mensagem de rolagem no chat (Flavor Text) */
+    .op-roll-flavor {
+        background: var(--op-black);
+        color: var(--op-red);
+        padding: 5px;
+        border-left: 3px solid var(--op-red);
+        text-transform: uppercase;
+        font-family: var(--op-font-main);
+        font-size: 0.8rem;
+        margin-bottom: 5px;
+    }
+
+    /* Destaque para o resultado numérico do dado no chat */
+    .dice-roll .dice-total {
+        background: var(--op-dark-red) !important;
+        color: white !important;
+        border: 1px solid var(--op-red) !important;
+        font-family: var(--op-font-main);
+        text-shadow: 0 0 5px black;
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "ordem-paranormal-v13",
+  "version": "1.0.0",
+  "description": "Sistema para Ordem Paranormal e Sobrevivendo ao Horror no Foundry V13",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "@typhonjs-fvtt/runtime": "^0.1.0"
+  }
+}

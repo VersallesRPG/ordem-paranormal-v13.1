@@ -1,0 +1,50 @@
+<header class="sheet-header">
+    <div class="portrait-container">
+        <img class="portrait-primary" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+        
+        {{!-- Badge de NEX Estilizado --}}
+        <div class="nex-badge">
+            <span class="nex-value">{{system.detalhes.nex}}%</span>
+            <span class="nex-label">NEX</span>
+        </div>
+    </div>
+
+    <div class="header-details">
+        {{!-- Nome do Personagem --}}
+        <h1 class="char-name">
+            <input name="name" type="text" value="{{actor.name}}" placeholder="Nome do Investigador..." />
+        </h1>
+        
+        {{!-- Grid de Informações de Classe e Origem --}}
+        <div class="char-meta-grid">
+            <div class="meta-item">
+                <label>CLASSE</label>
+                <select name="system.detalhes.classe">
+                    {{#select system.detalhes.classe}}
+                    <option value="combatente">Combatente</option>
+                    <option value="especialista">Especialista</option>
+                    <option value="ocultista">Ocultista</option>
+                    <option value="sobrevivente">Sobrevivente</option>
+                    {{/select}}
+                </select>
+            </div>
+
+            <div class="meta-item">
+                <label>ORIGEM</label>
+                <input name="system.detalhes.origem" type="text" value="{{system.detalhes.origem}}" placeholder="Ex: Acadêmico" />
+            </div>
+
+            <div class="meta-item">
+                <label>JOGADOR</label>
+                <span class="player-name">{{actor.user.name}}</span>
+            </div>
+            
+            {{#if (eq system.detalhes.classe "sobrevivente")}}
+            <div class="meta-item highlight-sah">
+                <label>ESTÁGIO (SaH)</label>
+                <input name="system.detalhes.estagio" type="number" value="{{system.detalhes.estagio}}" />
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</header>
