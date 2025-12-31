@@ -1,0 +1,24 @@
+<section class="item-sheet-content">
+    <div class="item-config">
+        <label>CONFIGURAÇÃO DA MALETA (RE4)</label>
+        <div class="grid-config">
+            <div class="config-field">
+                <label>Espaços Totais (1-4)</label>
+                <input type="number" name="system.espacos" value="{{system.espacos}}" min="1" max="4" />
+            </div>
+            <div class="config-field">
+                <label>Largura (Grid)</label>
+                <input type="number" name="system.largura" value="{{system.largura}}" min="1" max="2" />
+            </div>
+            <div class="config-field">
+                <label>Altura (Grid)</label>
+                <input type="number" name="system.altura" value="{{system.altura}}" min="1" max="2" />
+            </div>
+        </div>
+    </div>
+
+    <div class="item-description">
+        <label>DESCRIÇÃO DO ITEM</label>
+        {{editor system.descricao target="system.descricao" button=true owner=owner editable=editable}}
+    </div>
+</section>

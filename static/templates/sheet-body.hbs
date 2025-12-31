@@ -65,6 +65,22 @@
         </div>
     </div>
 
+    <div class="skills-section">
+        <h3 class="section-title">PERÍCIAS</h3>
+        <div class="skills-grid">
+            {{#each system.pericias as |skill key|}}
+            <div class="skill-row" data-action="rollSkill" data-skill="{{key}}">
+                <span class="skill-name">{{key}}</span>
+                <div class="skill-info">
+                    <span class="skill-attr">({{skill.atributo}})</span>
+                    <input type="number" name="system.pericias.{{key}}.bonus" value="{{skill.bonus}}" />
+                    <i class="fas fa-dice-d20"></i>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
     <div class="derived-stats-footer">
         <div class="stat-box">
             <label>DEFESA</label>

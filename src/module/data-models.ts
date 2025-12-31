@@ -7,16 +7,22 @@ import { TypeDataModel } from "foundry.abstract";
 
 /**
  * Modelo de Dados para Personagens (Atores).
- * Gerencia atributos, status e cálculos de classe[cite: 37, 314].
+ * Gerencia atributos, status, perícias e cálculos de classe[cite: 37, 314].
  */
 export class OPCharacterData extends TypeDataModel {
   
-  /** @override */
+  /** @override [cite: 19, 318-321] */
   static defineSchema() {
-    const { SchemaField, NumberField, StringField } = foundry.data.fields;
+    const { SchemaField, NumberField, StringField, HTMLField } = foundry.data.fields;
     
+    // Função auxiliar para padronizar a criação de perícias [cite: 24]
+    const skill = (attr) => new SchemaField({
+      bonus: new NumberField({ initial: 0, integer: true }),
+      atributo: new StringField({ initial: attr })
+    });
+
     return {
-      // Atributos base (FOR, AGI, INT, VIG, PRE) [cite: 19, 22, 321]
+      // Atributos base (FOR, AGI, INT, VIG, PRE) [cite: 19, 321]
       atributos: new SchemaField({
         forca: new NumberField({ required: true, integer: true, initial: 1, min: 0 }),
         agilidade: new NumberField({ required: true, integer: true, initial: 1, min: 0 }),
@@ -39,6 +45,26 @@ export class OPCharacterData extends TypeDataModel {
           value: new NumberField({ initial: 12 }),
           max: new NumberField({ initial: 12 })
         })
+      }),
+
+      // LISTA COMPLETA DE PERÍCIAS [cite: 24, 321]
+      pericias: new SchemaField({
+        // Agilidade
+        acrobacia: skill("agilidade"), crime: skill("agilidade"), furtividade: skill("agilidade"),
+        iniciativa: skill("agilidade"), pilotagem: skill("agilidade"), pontaria: skill("agilidade"), 
+        reflexos: skill("agilidade"),
+        // Força
+        atletismo: skill("forca"), luta: skill("forca"),
+        // Intelecto
+        atualidades: skill("intelecto"), ciencias: skill("intelecto"), investigacao: skill("intelecto"),
+        medicina: skill("intelecto"), ocultismo: skill("intelecto"), profissao: skill("intelecto"),
+        sobrevivencia: skill("intelecto"), tatica: skill("intelecto"), tecnologia: skill("intelecto"),
+        // Presença
+        adestramento: skill("presenca"), artes: skill("presenca"), diplomacia: skill("presenca"),
+        enganacao: skill("presenca"), intimidacao: skill("presenca"), intuicao: skill("presenca"),
+        percepcao: skill("presenca"), religiao: skill("presenca"), vontade: skill("presenca"),
+        // Vigor
+        fortitude: skill("vigor")
       }),
       
       // Detalhes de progressão e biografia [cite: 24, 321]
@@ -67,7 +93,7 @@ export class OPCharacterData extends TypeDataModel {
     const nivel = Math.max(1, Math.floor(nex / 5));
     const nexAdicional = nivel - 1;
 
-    // 1. Cálculos de PV, PE e Sanidade por Classe (Retroativo)
+    // 1. Cálculos de PV, PE e Sanidade por Classe (Retroativo) [cite: 122]
     switch (classe) {
       case "combatente":
         status.pv.max = (20 + atributos.vigor) + (nexAdicional * (4 + atributos.vigor));
@@ -95,26 +121,26 @@ export class OPCharacterData extends TypeDataModel {
         break;
     }
 
-    // 2. Limite de PE por Turno
+    // 2. Limite de PE por Turno [cite: 122, 330]
     this.limitePE = classe === "sobrevivente" ? 1 : Math.max(1, Math.floor(nex / 5));
 
-    // 3. Classe de Dificuldade (DT) para Rituais e Habilidades
+    // 3. Classe de Dificuldade (DT) para Rituais e Habilidades [cite: 330]
     this.dtRituais = 10 + this.limitePE + atributos.presenca;
 
-    // 4. Defesa Passiva Base
+    // 4. Defesa Passiva Base [cite: 330]
     this.defesa = 10 + atributos.agilidade;
   }
 }
 
 /**
  * Modelo de Dados para Itens.
- * Gerencia o tamanho físico para a maleta estilo RE4 [cite: 366-367].
+ * Gerencia o tamanho físico para a maleta estilo RE4 [cite: 321, 366-367].
  */
 export class OPItemData extends TypeDataModel {
   
-  /** @override */
+  /** @override [cite: 321] */
   static defineSchema() {
-    const { NumberField, StringField, HTMLField } = foundry.data.fields;
+    const { NumberField, HTMLField } = foundry.data.fields;
     
     return {
       descricao: new HTMLField({ initial: "" }),
